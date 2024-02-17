@@ -15,6 +15,7 @@
         hour: parseInt(hour),
         date: date
     });
+    return this
 };
 
 const createTimeOutEvent = function(dateStamp) {
@@ -24,7 +25,36 @@ const createTimeOutEvent = function(dateStamp) {
         hour: parseInt(hour),
         date: date
     });
+    return this
 };
+
+function hoursWorkedOnDate(dateStamp) {
+    const date = dateStamp.substring(0, 10);
+    let timeInEvent = this.timeInEvents.find(event => event.date === date);
+    let timeOutEvent = this.timeOutEvents.find(event => event.date === date);
+
+    let timeInHours = parseInt(timeInEvent.hour);
+    let timeOutHours = parseInt(timeOutEvent.hour);
+
+    const hoursWorked = (timeOutHours - timeInHours) / 100;
+
+    return hoursWorked;
+}
+
+function wagesEarnedOnDate(dateStamp) {
+    const payOwned = hoursWorkedOnDate.call(this, dateStamp) * this.payPerHour
+    return payOwned
+}
+
+function findEmployeeByFirstName(srcArray, firstName) {
+    return srcArray.find(employee => employee.firstName === firstName)
+}
+
+function calculatePayroll(array) {
+    return array.reduce((totalPayRoll, array) => {
+        return totalPayRoll + allWagesFor.call(array)
+    }, 0)
+}
 
 class EmployeeRecord {
     constructor(firstName, familyName, title, payPerHour, timeInEvents = [], timeOutEvents = []) {
@@ -34,8 +64,6 @@ class EmployeeRecord {
         this.payPerHour = payPerHour;
         this.timeInEvents = timeInEvents;
         this.timeOutEvents = timeOutEvents;
-        this.createTimeInEvent = createTimeInEvent.bind(this);
-        this.createTimeOutEvent = createTimeOutEvent.bind(this);
     }
 }
 
@@ -65,3 +93,4 @@ const allWagesFor = function () {
 
     return payable;
 };
+
